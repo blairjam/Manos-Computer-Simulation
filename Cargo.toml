@@ -1,0 +1,6 @@
+[package]
+name = "manos-computer-simulation"
+version = "0.1.0"
+authors = ["Conner Blair <cblair1353@gmail.com>"]
+
+[dependencies]
