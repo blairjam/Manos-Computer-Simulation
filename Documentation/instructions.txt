@@ -1,0 +1,30 @@
+Symbol |  Hex Code  |              Description
+       | DIR    IND |
+-------+------------+--------------------------------------
+  AND  | 0XXX  8XXX | AND memory word to AC
+  ADD  | 1XXX  9XXX | add memory word to AC
+  LDA  | 2XXX  AXXX | load memory word to AC
+  STA  | 3XXX  BXXX | store content of AC in memory
+  BUN  | 4XXX  CXXX | branch unconditionally
+  BSA  | 5XXX  DXXX | branch and save return address
+  ISZ  | 6XXX  EXXX | increment and skip if zero
+-------+------------+--------------------------------------
+  CLA  |    7800    | clear AC
+  CLE  |    7400    | clear E
+  CMS  |    7200    | complement AC
+  CME  |    7100    | complement E
+  CIR  |    7080    | circulate right AC and E
+  CIL  |    7040    | circulate left AC and E
+  INC  |    7020    | increment AC
+  SPA  |    7010    | skip next instruction if AC positive
+  SNA  |    7008    | skip next instruction if AC negative
+  SZA  |    7004    | skip next instruction if AC zero
+  SZE  |    7002    | skip next instruction if E zero
+  HLT  |    7001    | halt computer
+-------+------------+--------------------------------------
+  INP  |    F800    | input character to AC
+  OUT  |    F400    | output character from AC
+  SKI  |    F200    | skip on input flag
+  SKO  |    F100    | skip on output flag
+  ION  |    F080    | interrupt on
+  IOF  |    F040    | interrupt off
