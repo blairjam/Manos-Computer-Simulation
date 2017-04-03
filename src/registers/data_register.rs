@@ -1,41 +1,38 @@
-use registers;
+use registers::*;
 
 pub struct DataRegister {
-    data: [i8; 16]
+    data: [i8; WORD]
 }
 
 impl DataRegister {
     pub fn new() -> DataRegister {
-        DataRegister { data: [0, 0, 0, 0,
-                              0, 0, 0, 0,
-                              0, 0, 0, 0,
-                              0, 0, 0, 0] }
+        DataRegister { data: [0; WORD] }
     }
 
-    pub fn get_data(&self) -> [i8; 16] {
+    pub fn get_data(&self) -> [i8; WORD] {
         self.data
     }
 }
 
-impl registers::DoesTick for DataRegister {
+impl DoesTick for DataRegister {
     fn tick(&self) {
         println!("Data Register tick.");
     }
 }
 
-impl registers::CanLoad for DataRegister {
+impl CanLoad for DataRegister {
     fn load(&self) {
 
     }
 }
 
-impl registers::CanIncrement for DataRegister {
+impl CanIncrement for DataRegister {
     fn increment(&self) {
 
     }
 }
 
-impl registers::CanClear for DataRegister {
+impl CanClear for DataRegister {
     fn clear(&self) {
 
     }

@@ -7,6 +7,10 @@ pub mod temporary_register;
 pub mod input;
 pub mod output;
 
+pub const WORD: usize = 16;
+pub const THR_QTR_WORD: usize = 12;
+pub const HALF_WORD: usize = 8;
+
 pub trait DoesTick {
     fn tick(&self);
 }

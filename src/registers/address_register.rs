@@ -1,40 +1,38 @@
-use registers;
+use registers::*;
 
 pub struct AddressRegister {
-    data: [i8; 12]
+    data: [i8; THR_QTR_WORD]
 }
 
 impl AddressRegister {
     pub fn new() -> AddressRegister {
-        AddressRegister { data: [0, 0, 0, 0,
-                                 0, 0, 0, 0,
-                                 0, 0, 0, 0] }
+        AddressRegister { data: [0; THR_QTR_WORD] }
     }
 
-    pub fn get_data(&self) -> [i8; 12] {
+    pub fn get_data(&self) -> [i8; THR_QTR_WORD] {
         self.data
     }
 }
 
-impl registers::DoesTick for AddressRegister {
+impl DoesTick for AddressRegister {
     fn tick(&self) {
         println!("Address Register tick.");
     }
 }
 
-impl registers::CanLoad for AddressRegister {
+impl CanLoad for AddressRegister {
     fn load(&self) {
 
     }
 }
 
-impl registers::CanIncrement for AddressRegister {
+impl CanIncrement for AddressRegister {
     fn increment(&self) {
 
     }
 }
 
-impl registers::CanClear for AddressRegister {
+impl CanClear for AddressRegister {
     fn clear(&self) {
 
     }

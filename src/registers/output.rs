@@ -1,27 +1,26 @@
-use registers;
+use registers::*;
 
 pub struct Output {
-    data: [i8; 8]
+    data: [i8; HALF_WORD]
 }
 
 impl Output {
     pub fn new() -> Output {
-        Output { data: [0, 0, 0, 0,
-                        0, 0, 0, 0] }
+        Output { data: [0; HALF_WORD] }
     }
 
-    pub fn get_data(&self) -> [i8; 8] {
+    pub fn get_data(&self) -> [i8; HALF_WORD] {
         self.data
     }
 }
 
-impl registers::DoesTick for Output {
+impl DoesTick for Output {
     fn tick(&self) {
         println!("Output tick.");
     }
 }
 
-impl registers::CanLoad for Output {
+impl CanLoad for Output {
     fn load(&self) {
 
     }

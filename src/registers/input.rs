@@ -1,21 +1,20 @@
-use registers;
+use registers::*;
 
 pub struct Input {
-    data: [i8; 8]
+    data: [i8; HALF_WORD]
 }
 
 impl Input {
     pub fn new() -> Input {
-        Input { data: [0, 0, 0, 0,
-                       0, 0, 0, 0] }
+        Input { data: [0; HALF_WORD] }
     }
 
-    pub fn get_data(&self) -> [i8; 8] {
+    pub fn get_data(&self) -> [i8; HALF_WORD] {
         self.data
     }
 }
 
-impl registers::DoesTick for Input {
+impl DoesTick for Input {
     fn tick(&self) {
         println!("Input tick.");
     }

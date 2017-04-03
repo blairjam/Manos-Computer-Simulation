@@ -1,41 +1,38 @@
-use registers;
+use registers::*;
 
 pub struct TemporaryRegister {
-    data: [i8; 16]
+    data: [i8; WORD]
 }
 
 impl TemporaryRegister {
     pub fn new() -> TemporaryRegister {
-        TemporaryRegister { data: [0, 0, 0, 0,
-                                   0, 0, 0, 0,
-                                   0, 0, 0, 0,
-                                   0, 0, 0, 0] }
+        TemporaryRegister { data: [0; WORD] }
     }
 
-    pub fn get_data(&self) -> [i8; 16] {
+    pub fn get_data(&self) -> [i8; WORD] {
         self.data
     }
 }
 
-impl registers::DoesTick for TemporaryRegister {
+impl DoesTick for TemporaryRegister {
     fn tick(&self) {
         println!("Temporary Register tick.");
     }
 }
 
-impl registers::CanLoad for TemporaryRegister {
+impl CanLoad for TemporaryRegister {
     fn load(&self) {
 
     }
 }
 
-impl registers::CanIncrement for TemporaryRegister {
+impl CanIncrement for TemporaryRegister {
     fn increment(&self) {
 
     }
 }
 
-impl registers::CanClear for TemporaryRegister {
+impl CanClear for TemporaryRegister {
     fn clear(&self) {
 
     }
