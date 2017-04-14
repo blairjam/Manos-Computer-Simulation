@@ -6,26 +6,27 @@ using System.Threading.Tasks;
 
 namespace ManosComputer
 {
+    // Represents different sizes that the registers can have.
     public enum RegisterSize
     {
         SixteenBit = Program.WORD_SIZE,
-        TwelveBit = (Program.WORD_SIZE / 4) * 3,
-        OneBit = 1
+        TwelveBit  = (Program.WORD_SIZE / 4) * 3,
+        OneBit     = 1
     }
 
+    // Bit flags for the possible flags each register can have.
     [Flags]
     public enum RegisterFlags
     {
-        None = 0b0,
-        Load = 0b1,
-        Increment = 0b10,
-        Clear = 0b100,
-        All = Load | Increment | Clear
+        None      = 0b000,
+        Load      = 0b001,
+        Increment = 0b010,
+        Clear     = 0b100,
+        All       = Load | Increment | Clear
     }
 
-    public class Register
+    public class Register : MemoryBlock
     {
-        public byte[] Bits { get; protected set; }
         private RegisterFlags flags;
 
         private bool loadFlag = false;
@@ -34,8 +35,13 @@ namespace ManosComputer
 
         public Register(RegisterSize size, RegisterFlags flags)
         {
-            Bits = new byte[(int)size];
+            Data = new byte[(int)size];
             this.flags = flags;
+        }
+
+        public void SetBits(int value)
+        {
+            SetBitsFromValue(value, 0x0, Data.Length - 1);
         }
 
         public bool LoadFlag

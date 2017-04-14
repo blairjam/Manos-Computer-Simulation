@@ -8,17 +8,15 @@ namespace ManosComputer
 {
     public class MemoryBlock
     {
+        public byte[] Data { get; protected set; }
+
         public MemoryBlock()
         {
             Data = new byte[Program.WORD_SIZE];
         }
 
-        public byte[] Data
-        {
-            get; private set;
-        }
-
-        public void SetBits(int value, int lowBit, int highBit)
+        // Sets the Data array to the correct bit based on the value passed in, with respect to the lower and upper bounds given.
+        public void SetBitsFromValue(int value, int lowBit, int highBit)
         {
             var divisor = value;
 
@@ -29,6 +27,7 @@ namespace ManosComputer
             }
         }
 
+        // Property for the decimal value stored in this memory block.
         public int DecValue
         {
             get
@@ -49,6 +48,7 @@ namespace ManosComputer
             }
         }
 
+        // Property for the binary value as a string stored in this memory block.
         public string BinValue
         {
             get
@@ -71,6 +71,7 @@ namespace ManosComputer
             }
         }
 
+        // Property for the hex value as a string stored in this memory block.
         public string HexValue
         {
             get

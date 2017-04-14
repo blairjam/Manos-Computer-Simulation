@@ -29,6 +29,7 @@ namespace ManosComputer
 
         public Program()
         {
+            // Set up all the registers.
             registers.Add(new Register(RegisterSize.TwelveBit, RegisterFlags.All));
             registers.Add(new Register(RegisterSize.TwelveBit, RegisterFlags.All));
             registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All));
@@ -37,6 +38,7 @@ namespace ManosComputer
             registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All));
             registers.Add(new Register(RegisterSize.OneBit, RegisterFlags.None));
 
+            // Initialize the memory.
             for (var i = 0; i < MEM_SIZE; i++)
             {
                 memory.Add(new MemoryBlock());
@@ -46,6 +48,7 @@ namespace ManosComputer
         public void Run()
         {
             RandomizeMemory();
+            RandomizeRegisters();
         }
 
         private void RandomizeMemory()
@@ -54,25 +57,38 @@ namespace ManosComputer
 
             foreach (var block in memory)
             {
+                // Get the initial hex code, from 0 - E.
                 var hexCode = rand.Next(0xF);
-                block.SetBits(hexCode, 0xC, 0xF);
 
-                var nextBits = 0;
+                // Set the first 4 most signifigant bits.
+                block.SetBitsFromValue(hexCode, 0xC, 0xF);
+
+                var lowBits = 0;
+
+                // Choose the next bits from the possible register reference codes if the initial hex code is 7.
                 if (hexCode == 0x7)
                 {
-                    nextBits = REG_REF_INSTR_NUMS[rand.Next(REG_REF_INSTR_NUMS.Length)];
+                    lowBits = REG_REF_INSTR_NUMS[rand.Next(REG_REF_INSTR_NUMS.Length)];
                 }
+                // Completely select a random memory location from 0 - FFF.
                 else
                 {
-                    nextBits = rand.Next(0x1000);
+                    lowBits = rand.Next(0x1000);
                 }
-
-                block.SetBits(nextBits, 0x0, 0xB);
+                
+                // Set the lower 12 bits.
+                block.SetBitsFromValue(lowBits, 0x0, 0xB);
             }
+        }
 
-            foreach (var block in memory)
+        private void RandomizeRegisters()
+        {
+            var rand = new Random();
+
+            foreach (var register in registers)
             {
-                Console.WriteLine(block.HexValue);
+                register.SetBits(rand.Next((int)Math.Pow(2, register.Data.Length)));
+                Console.WriteLine(register.HexValue);
             }
         }
 
