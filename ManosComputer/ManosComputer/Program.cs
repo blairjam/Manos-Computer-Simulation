@@ -30,13 +30,13 @@ namespace ManosComputer
         public Program()
         {
             // Set up all the registers.
-            registers.Add(new Register(RegisterSize.TwelveBit, RegisterFlags.All));
-            registers.Add(new Register(RegisterSize.TwelveBit, RegisterFlags.All));
-            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All));
-            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All));
-            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.Load));
-            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All));
-            registers.Add(new Register(RegisterSize.OneBit, RegisterFlags.None));
+            registers.Add(new Register(RegisterSize.TwelveBit, RegisterFlags.All)); // AR
+            registers.Add(new Register(RegisterSize.TwelveBit, RegisterFlags.All)); // PC
+            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All)); // DR
+            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All)); // AC
+            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.Load)); // IR
+            registers.Add(new Register(RegisterSize.SixteenBit, RegisterFlags.All)); // TR
+            registers.Add(new Register(RegisterSize.OneBit, RegisterFlags.None)); // E
 
             // Initialize the memory.
             for (var i = 0; i < MEM_SIZE; i++)
@@ -49,6 +49,19 @@ namespace ManosComputer
         {
             RandomizeMemory();
             RandomizeRegisters();
+
+            for (var i = 0; i < 5; i++)
+            {
+                // T0: PC -> AR
+                registers[ADDRESS_REGISTER].SetAllBitsFromValue(registers[PROGRAM_CONTROL].DecValue);
+
+                // T1: M[AR] -> IR, PC -> PC + 1
+                registers[INSTRUCTION_REGISTER].SetAllBitsFromValue(memory[registers[ADDRESS_REGISTER].DecValue].DecValue);
+                registers[PROGRAM_CONTROL].SetAllBitsFromValue(registers[PROGRAM_CONTROL].DecValue + 1);
+
+                // T2: IR(0-11) -> AR, decode IR(12-15)
+                registers[ADDRESS_REGISTER].SetAllBitsFromValue(registers[INSTRUCTION_REGISTER].DecValue);
+            }
         }
 
         private void RandomizeMemory()
@@ -61,7 +74,7 @@ namespace ManosComputer
                 var hexCode = rand.Next(0xF);
 
                 // Set the first 4 most signifigant bits.
-                block.SetBitsFromValue(hexCode, 0xC, 0xF);
+                block.SetBitsFromValueWithBound(hexCode, 0xC, 0xF);
 
                 var lowBits = 0;
 
@@ -77,7 +90,7 @@ namespace ManosComputer
                 }
                 
                 // Set the lower 12 bits.
-                block.SetBitsFromValue(lowBits, 0x0, 0xB);
+                block.SetBitsFromValueWithBound(lowBits, 0x0, 0xB);
             }
         }
 
@@ -87,8 +100,9 @@ namespace ManosComputer
 
             foreach (var register in registers)
             {
-                register.SetBits(rand.Next((int)Math.Pow(2, register.Data.Length)));
-                Console.WriteLine(register.HexValue);
+                // Set the bits of the register to a random number, bounded by 2 to the power of the length of the register data array.
+                // Ex. 2^16 or 2^12 or 2^1
+                register.SetAllBitsFromValue(rand.Next((int)Math.Pow(2, register.Data.Length)));
             }
         }
 

@@ -16,7 +16,7 @@ namespace ManosComputer
         }
 
         // Sets the Data array to the correct bit based on the value passed in, with respect to the lower and upper bounds given.
-        public void SetBitsFromValue(int value, int lowBit, int highBit)
+        public void SetBitsFromValueWithBound(int value, int lowBit, int highBit)
         {
             var divisor = value;
 

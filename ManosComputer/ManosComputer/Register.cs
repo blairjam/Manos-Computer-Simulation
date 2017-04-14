@@ -39,9 +39,9 @@ namespace ManosComputer
             this.flags = flags;
         }
 
-        public void SetBits(int value)
+        public void SetAllBitsFromValue(int value)
         {
-            SetBitsFromValue(value, 0x0, Data.Length - 1);
+            SetBitsFromValueWithBound(value, 0x0, Data.Length - 1);
         }
 
         public bool LoadFlag
