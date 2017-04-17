@@ -62,7 +62,108 @@ namespace ManosComputer
                 // T2: IR(0-11) -> AR, decode IR(12-15)
                 registers[ADDRESS_REGISTER].SetAllBitsFromValue(registers[INSTRUCTION_REGISTER].DecValue);
 
+                if (registers[INSTRUCTION_REGISTER].DecValue >= 0x7000 && registers[INSTRUCTION_REGISTER].DecValue <= 0x7FFF)
+                {
+                    RunRegisterInstruction();
+                }
+                else
+                {
+                    RunMemoryInstruction();
+                }
             }
+        }
+
+        private void RunRegisterInstruction()
+        {
+            var instruction = registers[INSTRUCTION_REGISTER].DecValue - 0x7000;
+
+            // 0x800
+            if (instruction == REG_REF_INSTR_NUMS[0])
+            {
+                registers[ACCUMULATOR].SetAllBitsFromValue(0);
+            }
+            // 0x400
+            else if (instruction == REG_REF_INSTR_NUMS[1])
+            {
+                registers[E_REGISTER].SetAllBitsFromValue(0);
+            }
+            // 0x200
+            else if (instruction == REG_REF_INSTR_NUMS[2])
+            {
+                for (var i = 0; i < registers[ACCUMULATOR].Data.Length; i++)
+                {
+                    registers[ACCUMULATOR].Data[i] = (byte)~registers[ACCUMULATOR].Data[i];
+                }
+            }
+            // 0x100
+            else if (instruction == REG_REF_INSTR_NUMS[3])
+            {
+                for (var i = 0; i < registers[E_REGISTER].Data.Length; i++)
+                {
+                    registers[E_REGISTER].Data[i] = (byte)~registers[E_REGISTER].Data[i];
+                }
+            }
+            // 0x080
+            else if (instruction == REG_REF_INSTR_NUMS[4])
+            {
+                registers[E_REGISTER].SetAllBitsFromValue(registers[ACCUMULATOR].Data[0]);
+                registers[ACCUMULATOR].SetAllBitsFromValue(registers[ACCUMULATOR].DecValue >> 1);
+                registers[ACCUMULATOR].Data[0xF] = registers[E_REGISTER].Data[0];
+            }
+            // 0x040
+            else if (instruction == REG_REF_INSTR_NUMS[5])
+            {
+                registers[E_REGISTER].SetAllBitsFromValue(registers[ACCUMULATOR].Data[0xF]);
+                registers[ACCUMULATOR].SetAllBitsFromValue(registers[ACCUMULATOR].DecValue << 1);
+                registers[ACCUMULATOR].Data[0] = registers[E_REGISTER].Data[0];
+            }
+            // 0x020
+            else if (instruction == REG_REF_INSTR_NUMS[6])
+            {
+                registers[ACCUMULATOR].SetAllBitsFromValue(registers[ACCUMULATOR].DecValue + 1);
+            }
+            // 0x010
+            else if (instruction == REG_REF_INSTR_NUMS[7])
+            {
+                if (registers[ACCUMULATOR].Data[0xF] == 0)
+                {
+                    registers[PROGRAM_CONTROL].SetAllBitsFromValue(registers[PROGRAM_CONTROL].DecValue + 1);
+                }
+            }
+            // 0x008
+            else if (instruction == REG_REF_INSTR_NUMS[8])
+            {
+                if (registers[ACCUMULATOR].Data[0xF] == 1)
+                {
+                    registers[PROGRAM_CONTROL].SetAllBitsFromValue(registers[PROGRAM_CONTROL].DecValue + 1);
+                }
+            }
+            // 0x004
+            else if (instruction == REG_REF_INSTR_NUMS[9])
+            {
+                if (registers[ACCUMULATOR].DecValue == 0)
+                {
+                    registers[PROGRAM_CONTROL].SetAllBitsFromValue(registers[PROGRAM_CONTROL].DecValue + 1);
+                }
+            }
+            // 0x002
+            else if (instruction == REG_REF_INSTR_NUMS[10])
+            {
+                if (registers[E_REGISTER].DecValue == 0)
+                {
+                    registers[PROGRAM_CONTROL].SetAllBitsFromValue(registers[PROGRAM_CONTROL].DecValue + 1);
+                }
+            }
+            // 0x001
+            else if (instruction == REG_REF_INSTR_NUMS[11])
+            {
+                // S goes to 0.
+            }
+        }
+
+        private void RunMemoryInstruction()
+        {
+
         }
 
         private void RandomizeMemory()
