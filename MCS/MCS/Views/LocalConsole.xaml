@@ -11,6 +11,6 @@
         <vm:LocalConsoleViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <TextBox Text="{Binding Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="#FF0F0F0F" Foreground="#FFF9F9F9" FontFamily="Consolas" VerticalScrollBarVisibility="Auto" IsReadOnlyCaretVisible="True"/>
+        <TextBox Text="{Binding Path=ConsoleText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="#FF0F0F0F" Foreground="#FFF9F9F9" FontFamily="Consolas" VerticalScrollBarVisibility="Auto" IsReadOnlyCaretVisible="True"/>
     </Grid>
 </UserControl>

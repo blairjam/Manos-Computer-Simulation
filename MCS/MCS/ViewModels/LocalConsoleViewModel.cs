@@ -12,21 +12,31 @@ namespace MCS.ViewModels
     {
         private LocalConsole console;
 
-        public LocalConsole Console
+        public LocalConsoleViewModel()
+        {
+            console = new LocalConsole();
+        }
+
+        public string ConsoleText
         {
             get
             {
-                return console;
+                return console.Text;
             }
 
             set
             {
-                if (console != value)
+                if (console.Text != value)
                 {
-                    console = value;
-                    RaisePropertyChanged("Console");
+                    console.Text = value;
+                    RaisePropertyChanged("ConsoleText");
                 }
             }
+        }
+
+        public void AppendConsoleText(string text)
+        {
+            ConsoleText += text;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
