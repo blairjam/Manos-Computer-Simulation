@@ -61,6 +61,7 @@ namespace ManosComputer
 
                 // T2: IR(0-11) -> AR, decode IR(12-15)
                 registers[ADDRESS_REGISTER].SetAllBitsFromValue(registers[INSTRUCTION_REGISTER].DecValue);
+
             }
         }
 
