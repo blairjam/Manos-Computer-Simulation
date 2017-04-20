@@ -15,6 +15,11 @@ namespace ManosComputer
             Data = new byte[Program.WORD_SIZE];
         }
 
+        public void SetAllBitsFromValue(int value)
+        {
+            SetBitsFromValueWithBound(value, 0x0, Data.Length - 1);
+        }
+
         // Sets the Data array to the correct bit based on the value passed in, with respect to the lower and upper bounds given.
         public void SetBitsFromValueWithBound(int value, int lowBit, int highBit)
         {
